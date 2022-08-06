@@ -13,7 +13,6 @@ int main()
             if(i + j == c) res++;
         }
     }
-    
     cout << res << endl;
     return 0;
 }
