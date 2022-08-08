@@ -1,0 +1,69 @@
+/*推理 + 手写hash*/
+#include <bits/stdc++.h>
+#include <stdio.h>
+
+using namespace std;
+
+#define rep(i, n) for(int i = 1;i <= n; i ++ )
+#define pb push_back
+#define No cout << "No" << endl;
+#define Yes cout << "Yes" << endl;
+#define fi first
+#define se second
+#define all(x) (x).begin(),(x).end()
+typedef pair<int,int> pii;
+const int N = 2e5 + 10;
+const int INF = 0x3f3f3f3f;
+const int M = 1999997;
+int h[M];
+
+int find(int x) {
+    int k = (x % M + M) % M;
+    while(h[k] != INF && h[k] != x) 
+        if(++k == M) k = 0;
+    return k;
+}
+
+void solve() {
+    int n; scanf("%d", &n);
+    int a[N];
+    for(int i = 1; i <= n; i ++ ) scanf("%d", &a[i]);;
+
+    sort(a + 1, a + n + 1);
+    
+    memset(h, 0x3f, sizeof h);
+
+    for(int i = 1; i <= n; i ++ ) h[find(a[i])] = a[i];
+    for(int i = 1; i <= n; i ++ ) {
+        int j = 0;
+        while(abs(a[n] - a[i]) >= pow(2, j + 1)) {
+            if(h[find(a[i] + pow(2, j))] != INF && h[find(a[i] + pow(2, j + 1))] != INF) {
+                printf("3\n");
+                printf("%d %lld %lld\n", a[i], (long long)(a[i] + pow(2, j)), (long long)(a[i] + pow(2, j + 1)));
+                return ;
+            }
+            else j++;
+        }
+    }
+
+    for(int i = 1; i <= n; i ++ ) {
+        int j = 0;
+        while(abs(a[n] - a[i]) >= pow(2, j)) {
+            if(h[find(a[i] + pow(2, j))] != INF) {
+                printf("2\n");
+                printf("%d %lld\n", a[i], (long long)(a[i] + pow(2, j)));
+                return ;
+            }
+            else j++;
+        }
+    }
+    printf("1\n");
+    printf("%d\n", a[1]);
+}
+
+int main() {
+    
+    solve();
+
+    return 0;
+}
